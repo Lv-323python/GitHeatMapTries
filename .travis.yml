@@ -4,7 +4,7 @@ python:
 
 #check code
 script:
-  - pylint --rcfile=.pylintrc GitAPITries/
+  - pylint --rcfile=.pylintrc git_api_tries/
 
 # command to install dependencies
 install:
