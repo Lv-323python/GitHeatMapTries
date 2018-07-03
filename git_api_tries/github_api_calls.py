@@ -40,19 +40,19 @@ class Client:
         :return: dict
         """
         url = self.base_url + endpoint
-        custom_headers = {}
+        custom_headers = ()
         if self.api_token:
-            custom_headers = {'Authorization': 'token %s' % self.api_token}
-        response = self.requests.get(url, custom_headers)
+            custom_headers = (self.api_user, self.api_token)
+        response = requests.get(url, auth=custom_headers)
         return response.json()
 
-    def get_repos(self, repo):
+    def get_repo(self, repo):
         """
-        Gets github api repos
+        Gets github api repo of user or org by name
         :param repo: str
         :return: dict
         """
-        endpoint = '/repos/%s/%s' % (self.owner, repo)
+        endpoint = '/repos/{owner}/{repo}'.format(owner=self.owner, repo=repo)
         return self._call(endpoint)
 
     def get_issues(self, repo):
@@ -61,7 +61,7 @@ class Client:
         :param repo: str
         :return: dict
         """
-        endpoint = '/repos/%s/%s/issues' % (self.owner, repo)
+        endpoint = '/repos/{owner}/{repo}/issues'.format(owner=self.owner, repo=repo)
         return self._call(endpoint)
 
     def get_commits(self, repo):
@@ -70,5 +70,49 @@ class Client:
         :param repo: str
         :return:  dict
         """
-        endpoint = '/repos/%s/%s/git/commits' % (self.owner, repo)
+        endpoint = '/repos/{owner}/{repo}/commits'.format(owner=self.owner, repo=repo)
+        return self._call(endpoint)
+
+    def get_contributors_from_repo(self, repo):
+        """
+        Gets github api commits
+        :param repo: str
+        :return:  dict
+        """
+        endpoint = '/repos/{owner}/{repo}/contributors'.format(owner=self.owner, repo=repo)
+        return self._call(endpoint)
+
+    def get_user_commits_from_repo(self, repo, user):
+        """
+        Gets github api commits
+        :param repo: str
+        :return:  dict
+        :user: str
+        """
+        endpoint = '/repos/{owner}/{repo}/commits'.format(owner=self.owner, repo=repo)
+        list_of_commits = self._call(endpoint)
+        list_user_commits = []
+        for commit in list_of_commits:
+            if commit['commit']['author']['name'] == user:
+                list_user_commits.append(commit['commit'])
+        return list_user_commits
+
+    def get_org_members(self):
+        """
+        Gets github api commits
+        :param repo: str
+        :return:  dict
+        :user: str
+        """
+        endpoint = '/orgs/{owner}/members'.format(owner=self.owner)
+        return self._call(endpoint)
+
+    def get_user(self):
+        """
+        Gets github api commits
+        :param repo: str
+        :return:  dict
+        :user: str
+        """
+        endpoint = '/user'
         return self._call(endpoint)
