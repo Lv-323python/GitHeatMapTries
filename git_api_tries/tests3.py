@@ -24,7 +24,6 @@ print(CLIENT.get_repo())
 
 
 print(type(CLIENT.get_commits()))
-print(CLIENT.get_commits())
 
 print(CLIENT.get_commit_by_hash('ddc35f6a775b3c8e0b22b3df945d48cbe7369c32'))
 
