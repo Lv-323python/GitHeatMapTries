@@ -10,7 +10,7 @@ from request_sender.github_request_sender import GithubRequestSender
 
 
 #TOKEN = os.getenv("GITHUB_TOKEN")
-TOKEN='38bdfcb675dc130b977824f008b4379753ab34f8'
+TOKEN=''
 #USER = os.getenv("GITHUB_USER")
 USER='Anastasiia-Khab'
 GITHUB_ORG = "Lv-323python"
